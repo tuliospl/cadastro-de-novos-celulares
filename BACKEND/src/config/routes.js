@@ -6,7 +6,6 @@ let celulares = require('../data/celulares');
 
 // Busca todos os Celulares
 routes.get('/phone', (req, res) => {
-  // console.log(celulares)
   return res.json(celulares)
 });
 
@@ -15,14 +14,12 @@ routes.get('/phone', (req, res) => {
 routes.get('/phone/:id', (req, res) => {
   const Code = req.params.id;
   const smartphoneIndex = celulares.find((c) => c.Code === Code);
-  // console.log(smartphoneIndex);
   return res.status(200).json(smartphoneIndex);
 });
 
 
 // Insere um novo Celular
 routes.post('/phone', (req, res) => {
-  // console.log(req.body)
   const { Code, Model, Price, Brand, Color, StartDate, EndDate } = req.body
 
   if(!req.body)
@@ -44,8 +41,6 @@ routes.delete('/phone/:id', (req, res) => {
 // Edita o Celular
 routes.patch('/phone/:id', (req, res) => {
   const Code = req.params.id;
-  // console.log(Code);
-  // console.log(req.body);
   const { Model, Price, Brand, Color, StartDate, EndDate  } = req.body
   
   celulares.filter((c) => { if(c.Code === Code) {
