@@ -25,11 +25,13 @@ export default class AddSmartphone extends React.Component {
     this.formatarMoeda = this.formatarMoeda.bind(this);
   }
 
+  // Função generica para adicionar valores ao state
   handlerChange(event) {
     const {name, value} = event.target;
     this.setState({[name]: value})
   }
 
+  // Faz requisição na Api adicionando novo celular
   postAPI() {
     let { Code, Model, Price, Brand, Color, StartDate, EndDate } = this.state;
     api.post('/phone', { Code, Model, Price, Brand, Color, StartDate, EndDate },
@@ -42,6 +44,7 @@ export default class AddSmartphone extends React.Component {
     })
   }
 
+  // Verifica se todas as entradas correspondem as condiçoes
   checkFields() {
     const { Model, Price, Brand, StartDate, EndDate } = this.state;
     if(Model.length < 2 || Model.length > 255) {
@@ -59,6 +62,7 @@ export default class AddSmartphone extends React.Component {
     }
   }
 
+  // Gera um codigo de 8 digitos
   // https://qastack.com.br/programming/1349404/generate-random-string-characters-in-javascript
   generateCode = async () => {
     let result = '';
@@ -71,6 +75,7 @@ export default class AddSmartphone extends React.Component {
     this.postAPI();
   }
  
+  // Formata o valor do campo Price em formato BR
   // https://html-css-js.com/?html=%3Cinput%20type=%22text%22%20maxlength=%229%22%20i$*$d=%22valor%22%20onkeyup=%22formatarMoeda()%22%3E&css=&js=%20%20%20%20function%20formatarMoeda()%20%7B%0A%20%20%20%20%20%20%20%20var%20elemento%20=%20document.getElementById(%27valor%27);%0A%20%20%20%20%20%20%20%20var%20valor%20=%20elemento.value;%0A%20%20%20%20%20%20%20%20%0A%0A%20%20%20%20%20%20%20%20valor%20=%20valor%20+%20%27%27;%0A%20%20%20%20%20%20%20%20valor%20=%20parseInt(valor.replace(/%5B%5CD%5D+/g,%20%27%27));%0A%20%20%20%20%20%20%20%20valor%20=%20valor%20+%20%27%27;%0A%20%20%20%20%20%20%20%20valor%20=%20valor.replace(/(%5B0-9%5D%7B2%7D)$/g,%20%22,$1%22);%0A%0A%20%20%20%20%20%20%20%20if%20(valor.length%20%3E%206)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20valor%20=%20valor.replace(/(%5B0-9%5D%7B3%7D),(%5B0-9%5D%7B2%7D$)/g,%20%22.$1,$2%22);%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20elemento.value%20=%20valor;%0A%20%20%20%20%20%20%20%20if(valor%20==%20%27NaN%27)%20elemento.value%20=%20%27%27;%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%7D
   formatarMoeda(event) {
     let elemento = event.target;
@@ -90,8 +95,9 @@ export default class AddSmartphone extends React.Component {
     valor = elemento.value;
 
     this.setState({Price: valor});
-}
+  }
   
+  // Redireciona para a rota '/'
   redirect() {
     window.location.href = "http://localhost:3000/";
   }

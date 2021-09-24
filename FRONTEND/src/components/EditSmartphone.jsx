@@ -21,6 +21,7 @@ constructor() {
     this.formatarMoeda = this.formatarMoeda.bind(this);
 }
 
+// Faz uma requisição GET na api retornando um unico celular e o salva no state
 componentDidMount() {
   let url = window.location.pathname;
   var id = url.substring(url.lastIndexOf('/') + 1);
@@ -31,11 +32,13 @@ componentDidMount() {
   })
 }
 
+// Função generica para adicionar valores ao state
 handlerChange(event) {
   const {name, value} = event.target;
   this.setState({[name]: value})
 }
 
+// Verifica se todas as entradas correspondem as condiçoes
 checkFields() {
   const { Model, Price, Brand, StartDate, EndDate } = this.state;
   if(Model.length < 2 || Model.length > 255) {
@@ -53,6 +56,7 @@ checkFields() {
   }
 }
 
+// Faz uma requisição PATCH na api enviando novos valores para update
 patchAPI() {
   const { Code, Model, Price, Brand, Color, StartDate, EndDate } = this.state;
   api.patch(`/phone/${Code}`, { Code, Model, Price, Brand, Color, StartDate, EndDate },
@@ -66,27 +70,29 @@ patchAPI() {
   })
 }
 
-  // https://html-css-js.com/?html=%3Cinput%20type=%22text%22%20maxlength=%229%22%20i$*$d=%22valor%22%20onkeyup=%22formatarMoeda()%22%3E&css=&js=%20%20%20%20function%20formatarMoeda()%20%7B%0A%20%20%20%20%20%20%20%20var%20elemento%20=%20document.getElementById(%27valor%27);%0A%20%20%20%20%20%20%20%20var%20valor%20=%20elemento.value;%0A%20%20%20%20%20%20%20%20%0A%0A%20%20%20%20%20%20%20%20valor%20=%20valor%20+%20%27%27;%0A%20%20%20%20%20%20%20%20valor%20=%20parseInt(valor.replace(/%5B%5CD%5D+/g,%20%27%27));%0A%20%20%20%20%20%20%20%20valor%20=%20valor%20+%20%27%27;%0A%20%20%20%20%20%20%20%20valor%20=%20valor.replace(/(%5B0-9%5D%7B2%7D)$/g,%20%22,$1%22);%0A%0A%20%20%20%20%20%20%20%20if%20(valor.length%20%3E%206)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20valor%20=%20valor.replace(/(%5B0-9%5D%7B3%7D),(%5B0-9%5D%7B2%7D$)/g,%20%22.$1,$2%22);%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20elemento.value%20=%20valor;%0A%20%20%20%20%20%20%20%20if(valor%20==%20%27NaN%27)%20elemento.value%20=%20%27%27;%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%7D
-  formatarMoeda(event) {
-    let elemento = event.target;
-    let valor = event.target.value;
-    valor = valor + '';
-    valor = parseInt(valor.replace(/[\D]+/g, ''));
-    valor = valor + '';
-    valor = valor.replace(/([0-9]{2})$/g, ",$1");
+// Formata o valor do campo Price em formato BR
+// https://html-css-js.com/?html=%3Cinput%20type=%22text%22%20maxlength=%229%22%20i$*$d=%22valor%22%20onkeyup=%22formatarMoeda()%22%3E&css=&js=%20%20%20%20function%20formatarMoeda()%20%7B%0A%20%20%20%20%20%20%20%20var%20elemento%20=%20document.getElementById(%27valor%27);%0A%20%20%20%20%20%20%20%20var%20valor%20=%20elemento.value;%0A%20%20%20%20%20%20%20%20%0A%0A%20%20%20%20%20%20%20%20valor%20=%20valor%20+%20%27%27;%0A%20%20%20%20%20%20%20%20valor%20=%20parseInt(valor.replace(/%5B%5CD%5D+/g,%20%27%27));%0A%20%20%20%20%20%20%20%20valor%20=%20valor%20+%20%27%27;%0A%20%20%20%20%20%20%20%20valor%20=%20valor.replace(/(%5B0-9%5D%7B2%7D)$/g,%20%22,$1%22);%0A%0A%20%20%20%20%20%20%20%20if%20(valor.length%20%3E%206)%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20valor%20=%20valor.replace(/(%5B0-9%5D%7B3%7D),(%5B0-9%5D%7B2%7D$)/g,%20%22.$1,$2%22);%0A%20%20%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20%20%20elemento.value%20=%20valor;%0A%20%20%20%20%20%20%20%20if(valor%20==%20%27NaN%27)%20elemento.value%20=%20%27%27;%0A%20%20%20%20%20%20%20%20%0A%20%20%20%20%7D
+formatarMoeda(event) {
+  let elemento = event.target;
+  let valor = event.target.value;
+  valor = valor + '';
+  valor = parseInt(valor.replace(/[\D]+/g, ''));
+  valor = valor + '';
+  valor = valor.replace(/([0-9]{2})$/g, ",$1");
 
-    if (valor.length > 6) {
-        valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
-    }
+  if (valor.length > 6) {
+    valor = valor.replace(/([0-9]{3}),([0-9]{2}$)/g, ".$1,$2");
+  }
 
-    elemento.value = valor;
-    if(valor === 'NaN') elemento.value = '';
+  elemento.value = valor;
+  if(valor === 'NaN') elemento.value = '';
 
-    valor = elemento.value;
+  valor = elemento.value;
 
-    this.setState({Price: valor});
+  this.setState({Price: valor});
 }
 
+// Redireciona para a rota '/'
 redirect() {
   window.location.href = "http://localhost:3000/";
 }

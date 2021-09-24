@@ -10,6 +10,7 @@ import Edit from '../images/edit-24px.svg';
 export default function Phones() {
 const [arraySmartphones, setArraySmartphones] = useState([]);
 
+// Faz uma requisição GET na api retornando todos os celulares e o salva no state
 useEffect(() => {
   api.get('/phone', { 'cpf': '04925787454' }).then((response) => {
     setArraySmartphones(response.data);
@@ -17,6 +18,7 @@ useEffect(() => {
   //eslint-disable-next-line
 }, [])
 
+// Faz uma requisição DELETE na api passando index para deletar o celular
 const deleteSmartphone = (event) => {
   console.log(event.target);
   const id = event.target.value;
@@ -27,10 +29,12 @@ const deleteSmartphone = (event) => {
   location.reload()
 }
 
+// Redireciona para a rota '/add'
 const redirect = () => {
   window.location.href = "http://localhost:3000/add";
 }
 
+// Redireciona para a rota '/edit/CODIGO_DO_CELULAR'
 const editSmartphone = (event) => {
   console.log(event)
   const Code = event.target.value
